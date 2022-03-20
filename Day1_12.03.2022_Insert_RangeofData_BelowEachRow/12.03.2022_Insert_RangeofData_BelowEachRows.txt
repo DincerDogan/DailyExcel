@@ -1,0 +1,39 @@
+Sub InsertRows()
+    Dim i, intEndRow As Integer
+   
+    Dim a As Integer, b As Integer
+    a = Worksheets("Sheet1").UsedRange.Rows.Count
+    b = Worksheets("Sheet2").UsedRange.Rows.Count
+    
+   
+    With Sheets("Sheet1")
+        intEndRow = .Range("A65535").End(xlUp).Row
+   
+        For i = intEndRow To 1 Step -1
+            .Range("A1").Offset(i, 0).Resize(b, 1).Insert Shift:=xlDown
+      
+        Next i
+    End With
+   
+    Call Add_ButtonInsEmptyRow(a, b)
+      
+End Sub
+
+
+Sub Add_ButtonInsEmptyRow(orgrownumber As Integer, datarownumber As Integer)
+  Dim Summary As Worksheet, data As Worksheet, frstER As Long
+   
+    Set data = Worksheets("Sheet2")
+    Set Insertion = Worksheets("Sheet1")
+   
+    frstER = 2
+                
+        For i = orgrownumber To 1 Step -1
+           
+            Insertion.Range("A" & frstER).Resize(datarownumber, 1).Value = data.Range("A1:A" & datarownumber).Value
+            Insertion.Range("A" & frstER).Resize(datarownumber, 1).Interior.Color = vbYellow
+            
+            frstER = Insertion.Range("A2").End(xlDown).Row + 1
+        Next i
+    
+End Sub

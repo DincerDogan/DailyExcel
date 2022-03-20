@@ -1,0 +1,29 @@
+Sub CompareTwoSheet()
+
+Dim w1 As Worksheet, w2 As Worksheet
+Dim i As Integer
+
+Set w1 = Sheets("A2") 'Revised one
+Set w2 = Sheets("A1") 'Orginal one
+
+With w1
+    i = 0
+    For Each cel In .UsedRange
+        
+        If cel.Value <> w2.Cells(cel.Row, cel.Column).Value Then
+              
+               cel.Font.Color = vbWhite
+               cel.Interior.Color = vbRed
+               i = i + 1
+        End If
+        If cel.Column = 27 And i = 0 Then
+           w1.Cells(cel.Row, cel.Column + 1) = "No Change"
+           
+        ElseIf cel.Column = 27 And i <> 0 Then
+           w1.Cells(cel.Row, cel.Column + 1) = i
+           i = 0
+        
+        End If
+      
+    Next cel
+End With
